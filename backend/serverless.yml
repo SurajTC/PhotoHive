@@ -1,0 +1,60 @@
+service: photohive-serverless
+
+frameworkVersion: "3"
+configValidationMode: error
+
+custom:
+  wsgi:
+    app: app.app
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  stackName: photohive-stack
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${self:provider.region}:*:table/*"
+        - Effect: Allow
+          Action:
+            - s3:ListBucket
+            - s3:PutObject
+          Resource: "arn:aws:s3:::*"
+  apiGateway:
+    binaryMediaTypes:
+      - "image/*"
+
+functions:
+  api:
+    handler: wsgi_handler.handler
+    events:
+      - httpApi: "*"
+        events:
+      - http:
+          method: GET
+          path: /
+      - http:
+          method: ANY
+          path: /photos
+      - http:
+          method: ANY
+          path: /photos/{proxy+}
+      - http:
+          method: GET
+          path: /tags
+      - http:
+          method: GET
+          path: /{any+}
+
+plugins:
+  - serverless-wsgi
+  - serverless-python-requirements
