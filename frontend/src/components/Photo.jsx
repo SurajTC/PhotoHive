@@ -87,11 +87,15 @@ const Photo = () => {
       <div key={photo.id} className="drop-shadow">
         <img src={photo.image_url} alt={photo.id} className="w-full rounded" />
       </div>
-      <p className="text-2xl font-bold mt-4 mb-2 text-slate-700">View More...</p>
+      <p className="text-2xl font-bold mt-4 mb-2 text-slate-700">
+        View More...
+      </p>
       <Home excludeId={photo.id} />
     </div>
   ) : (
-    <p>Loading...</p>
+    <div className="flex items-center justify-center text-2xl font-bold">
+      Loading...
+    </div>
   );
 };
 

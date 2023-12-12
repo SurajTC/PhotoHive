@@ -1,5 +1,4 @@
 const URL = "https://31mjo24vcl.execute-api.us-east-1.amazonaws.com/prod";
-// const URL = "http://localhost:5000/photos";
 
 const getPhotos = async (search) => {
   try {
