@@ -18,7 +18,7 @@ S3_BUCKET = "photohive-storage"
 CHAR_SET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 S3_OBJ_URL = f"https://{S3_BUCKET}.s3.amazonaws.com/"
 TMP_DIR = "/tmp/"
-THUMB_SIZE = 100
+THUMB_SIZE = 256
 
 app = Flask(__name__)
 CORS(app)
@@ -47,9 +47,9 @@ def convert_img(filename, format="JPEG"):
     return buffer, ip_img
 
 
-def resize_img(img, thumb_height=THUMB_SIZE, format="JPEG"):
+def resize_img(img, thumb_width=THUMB_SIZE, format="JPEG"):
     width, height = img.size
-    thumb_width = int((thumb_height / height) * width)
+    thumb_height = int((thumb_width / width) * height)
 
     thumb_img = img.resize((thumb_width, thumb_height))
     buffer = BytesIO()
@@ -61,7 +61,7 @@ def resize_img(img, thumb_height=THUMB_SIZE, format="JPEG"):
 
 @app.route("/")
 def index():
-    return jsonify(message="Hello from INDEX")
+    return jsonify(message="Welcome to PhotHive API")
 
 
 @app.route("/photos", methods=["GET"])

@@ -1,10 +1,26 @@
-const URL =
-  "https://31mjo24vcl.execute-api.us-east-1.amazonaws.com/prod/photos";
+const URL = "https://31mjo24vcl.execute-api.us-east-1.amazonaws.com/prod";
 // const URL = "http://localhost:5000/photos";
 
 const getPhotos = async (search) => {
   try {
-    const response = await fetch(`${URL}?search=${search}`);
+    const response = await fetch(`${URL}/photos?search=${search}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching photos:", error.message);
+    throw error;
+  }
+};
+
+const getPhoto = async (id) => {
+  try {
+    const response = await fetch(`${URL}/photos/${id}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch data");
@@ -34,7 +50,7 @@ const putPhoto = async (image, username, tags) => {
     };
 
     // Send PUT request to the API
-    const response = await fetch(URL, {
+    const response = await fetch(`${URL}/photos`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +71,7 @@ const putPhoto = async (image, username, tags) => {
 
 const deletePhoto = async (id) => {
   try {
-    const response = await fetch(`${URL}/${id}`, {
+    const response = await fetch(`${URL}/photos/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -76,4 +92,21 @@ const deletePhoto = async (id) => {
   }
 };
 
-export { getPhotos, putPhoto, deletePhoto };
+const getTags = async (search) => {
+  try {
+    const response = await fetch(`${URL}/tags?search=${search}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching photos:", error.message);
+    throw error;
+  }
+};
+
+export { getPhotos, putPhoto, deletePhoto, getPhoto, getTags };
