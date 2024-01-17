@@ -21,9 +21,11 @@ For deploying the backend, the Serverless Framework is utilized. The Flask app i
 
 The frontend, built with React, TailwindCSS, and Vite, is deployed on an S3 bucket. The deployment script syncs the build with the bucket and configures S3 for static website hosting.
 
-## Website Link
+## Screenshots
 
-Access the PhotoHive app [here](http://photohive.s3-website-us-east-1.amazonaws.com/).
+![Home](./asset/home.png)
+![Upload](./asset/upload.png)
+![Details](./asset/details.png)
 
 ## Installation
 
